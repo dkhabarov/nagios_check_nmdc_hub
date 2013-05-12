@@ -84,15 +84,14 @@ end
 
 function show_help ()
 	local help=[[
-	---------------------------------------------------------------------------------
-	check_nmdc.lua - Plugin for nagios to check NeoModus Direct Connect (NMDC) hubs.
-	Version: ]].._MYVERSION..[[
+check_nmdc.lua - Plugin for nagios to check NeoModus Direct Connect (NMDC) hubs.
+Version: ]].._MYVERSION..[[
 	
-	Copyright © 2013 Denis Khabarov aka 'Saymon21'
-	E-Mail: (saymon@hub21.ru)
-	License GNU GPL v3
-	---------------------------------------------------------------------------------
-	Arguments:
+Copyright © 2013 Denis Khabarov aka 'Saymon21'
+E-Mail: (saymon@hub21.ru)
+License GNU GPL v3
+
+Options:
 	--help                    - Show this help
 	--addr=VALUE              - Host name or IP Address hub
 	--port=VALUE              - TCP Port. (Optional. Default: 411)
@@ -103,7 +102,17 @@ function show_help ()
 	--usersmaxwarn=VALUE      - Warning if userscount >= VALUE
 	--usersmaxcritical=VALUE  - Critical if userscount >= VALUE
 	--expecthubname           - Expect Hubname (Check md5 sum)
-	---------------------------------------------------------------------------------
+
+Usage: ]]..arg[0]..[[ \
+	 --addr=dc.mycompany.ltd \
+	[ --port=4111 ] \
+	[ --nick='MyNagios' ] \
+	[ --password='mysuperpassowrd' ] \
+	[ --sharesize=1G ] \
+	[ --perfdata ] \
+	[ --usersmaxwarn=95 ] \
+	[ --usersmaxcritical=100 ] \
+	[ --expecthubname='My Company DC's Hub' ]
 	]]
 	print (help)
 end
@@ -165,10 +174,6 @@ function cliarg_handler ()
 		print('Argument \'expecthubname\' is nil or not string: ')
 		os.exit(NAG_STATES['UNKNOWN'])
 	end
---	if not tArgs["to"]:find("^%d+$") then
---		print("Invalid argument for --to.")
---		os.exit(3)
---	end
 end
 
 
@@ -210,7 +215,6 @@ local function main ()
 		result = "Error: "..hub.LastErr
 		nagstate = NAG_STATES["CRITICAL"]
 	end
-	--print(hub.PingTime)
 	print(result)
 	os.exit(nagstate)
 end

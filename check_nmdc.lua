@@ -27,7 +27,7 @@ local NAG_STATES= { --http://nagios.sourceforge.net/docs/3_0/pluginapi.html
 		["UNKNOWN"] = 3,	
 	}
 
-local PINGER_SATES={
+local PINGER_STATES={
 	[-1] = "Unknown error",
 	[1] = "Unable to connect",
 	[2] = "Hub is not send Lock command",
@@ -43,7 +43,7 @@ if not package.loaded['md5'] then
 	print('Lua md5 module not found. For fix it usage: \'apt-get install liblua5.1-md5-0\' (If you\'re using Debian or Ubuntu)')
 	os.exit(NAG_STATES['UNKNOWN'])
 end
-local res,err=pcall(dofile,"pinger.lua")
+local res,err=pcall(dofile,"/usr/share/lua/5.1/nmdc_pinger.lua")
 if not res then
 	print('Pinger module not found. Please download from \'http://mydc.ru/topic4787.html\'')
 	os.exit(NAG_STATES['UNKNOWN'])
@@ -199,7 +199,7 @@ local function main ()
 				nagstate = NAG_STATES['OK']
 			end
 		elseif hub.State <= 8 and hub.State >= 2 then
-			result = 'WARNING Error: '..PINGER_SATES[hub.State]
+			result = 'WARNING Error: '..PINGER_STATES[hub.State]
 			nagstate = NAG_STATES['WARNING']
 		end
 		

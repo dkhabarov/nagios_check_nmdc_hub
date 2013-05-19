@@ -102,6 +102,7 @@ Options:
 	--usersmaxwarn=VALUE      - Warning if userscount >= VALUE
 	--usersmaxcritical=VALUE  - Critical if userscount >= VALUE
 	--expecthubname           - Expect Hubname (Check md5 sum)
+	--randomnick              - Add random number in nick end
 
 Usage: ]]..arg[0]..[[ \
 	 --addr=dc.mycompany.ltd \
@@ -121,6 +122,7 @@ function cliarg_handler ()
 		local available_args = {
 			["addr"] = true, ["port"] = true, ["nick"] = true, ["password"] = true, ["sharesize"] = true, ["help"]= true,
 			['perfdata']=true,['usersmaxwarn']=true, ['usersmaxcritical']=true,["expecthubname"]=true,
+			['randomnick'] = true,
 		}
 		for _, val in ipairs(arg) do
 			if val:find("=", 1, true) then
@@ -158,7 +160,7 @@ function cliarg_handler ()
 	end
 	if not tArgs['nick'] then
 		tArgs['nick'] = 'nmdcnagios'
-	end
+	end	
 	if tArgs['sharesize'] then
 		tArgs['sharesize'] = convert_normal_size_to_bytes(tArgs['sharesize'])	
 	end
@@ -181,7 +183,11 @@ end
 local function main ()
 	cliarg_handler() -- Parse command line arguments
 	local nagstate,result = NAG_STATES['UNKNOWN'],'Unable to check '..tArgs['addr']..': Unknown error'
-	local hub = Ping(tArgs['addr'],(tArgs['port'] or 411),tArgs['nick']..math.random(1,1000),tArgs['password'],convert_normal_size_to_bytes(tArgs['sharesize']))
+	if tArgs['randomnick'] then
+		math.randomseed(os.time())
+		tArgs['nick'] = tArgs['nick']..tostring(math.random(1,33))
+	end
+	local hub = Ping(tArgs['addr'],(tArgs['port'] or 411),tArgs['nick'],tArgs['password'],convert_normal_size_to_bytes(tArgs['sharesize']))
 	if hub.Online then
 --		print('ONLINE')
 		if hub.State == 9 then

@@ -82,6 +82,12 @@ function convert_bytes_to_normal_size (share)
     return string.format("%.3f",share).." "..(unit[i] or "??")
 end
 
+
+function usage()
+	local _usage=[[usage: ]]..arg[0]..[[ --addr=dc.mycompany.ltd [ --port=4111 ] [ --nick='MyNagios' ] [ --password='mysuperpassowrd' ] [ --sharesize=1G ] [ --perfdata ] [ --usersmaxwarn=95 ] [ --usersmaxcritical=100 ] [ --expecthubname='My Company DC's Hub' ] [ --randomnick ] ]]
+	print(_usage)
+end
+
 function show_help ()
 	local help=[[
 check_nmdc.lua - Plugin for nagios to check NeoModus Direct Connect (NMDC) hubs.
@@ -103,20 +109,12 @@ Options:
 	--usersmaxcritical=VALUE  - Critical if userscount >= VALUE
 	--expecthubname           - Expect Hubname (Check md5 sum)
 	--randomnick              - Add random number in nick end
-
-Usage: ]]..arg[0]..[[ \
-	 --addr=dc.mycompany.ltd \
-	[ --port=4111 ] \
-	[ --nick='MyNagios' ] \
-	[ --password='mysuperpassowrd' ] \
-	[ --sharesize=1G ] \
-	[ --perfdata ] \
-	[ --usersmaxwarn=95 ] \
-	[ --usersmaxcritical=100 ] \
-	[ --expecthubname='My Company DC's Hub' ]
+	
 	]]
 	print (help)
+	usage()
 end
+
 function cliarg_handler ()
 	if arg then
 		local available_args = {
@@ -130,7 +128,8 @@ function cliarg_handler ()
 				if name and value and available_args[name:lower()] then
 					tArgs[name:lower()] = value
 				else
-					print("Unknown commandline argument used: "..val.."\nusage: "..arg[0].."--help")
+					print("Unknown commandline argument used: "..val)
+					usage()
 					os.exit(NAG_STATES["UNKNOWN"])
 				end
 			else
@@ -138,7 +137,8 @@ function cliarg_handler ()
 				if name and  available_args[name:lower()] then
 					tArgs[name:lower()] = true
 				else
-					print("Unknown commandline argument used: "..val.."\nusage: "..arg[0].." --help")
+					print("Unknown commandline argument used: "..val)
+					usage()
 					os.exit(NAG_STATES["UNKNOWN"])
 				end
 			end

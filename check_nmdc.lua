@@ -91,7 +91,7 @@ end
 function show_help ()
 	print(('check_nmdc.lua - Plugin for nagios to check NeoModus Direct Connect (NMDC) hubs.\
 Version: %s\
-Copyright © 2009-2012 by Denis Khabarov aka \'Saymon21\'\
+Copyright © 2013 by Denis Khabarov aka \'Saymon21\'\
 E-Mail: saymon at hub21 dot ru (saymon@hub21.ru)\
 Homepage: http://opensource.hub21.ru/nagios_check_nmdc_hub/\
 Licence: GNU General Public License version 3\

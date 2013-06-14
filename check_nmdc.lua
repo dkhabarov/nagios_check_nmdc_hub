@@ -83,19 +83,23 @@ function convert_bytes_to_normal_size (share)
 end
 
 
-function usage()
-	local _usage=[[usage: ]]..arg[0]..[[ --addr=dc.mycompany.ltd [ --port=4111 ] [ --nick='MyNagios' ] [ --password='mysuperpassowrd' ] [ --sharesize=1G ] [ --perfdata ] [ --usersmaxwarn=95 ] [ --usersmaxcritical=100 ] [ --expecthubname='My Company DC's Hub' ] [ --randomnick ] ]]
+function show_usage()
+	local _usage=[[usage: ]]..arg[0]:gsub('./','')..[[ --addr=dc.mycompany.ltd [ --port=4111 ] [ --nick='MyNagios' ] [ --password='mysuperpassowrd' ] [ --sharesize=1G ] [ --perfdata ] [ --usersmaxwarn=95 ] [ --usersmaxcritical=100 ] [ --expecthubname='My Company DC's Hub' ] [ --randomnick ] ]]
 	print(_usage)
 end
 
 function show_help ()
-	local help=[[
-check_nmdc.lua - Plugin for nagios to check NeoModus Direct Connect (NMDC) hubs.
-Version: ]].._MYVERSION..[[
-	
-Copyright © 2013 Denis Khabarov aka 'Saymon21'
-E-Mail: (saymon@hub21.ru)
-License GNU GPL v3
+	print(('check_nmdc.lua - Plugin for nagios to check NeoModus Direct Connect (NMDC) hubs.\
+Version: %s\
+Copyright © 2009-2012 by Denis Khabarov aka \'Saymon21\'\
+E-Mail: saymon at hub21 dot ru (saymon@hub21.ru)\
+Homepage: http://opensource.hub21.ru/nagios_check_nmdc_hub/\
+Licence: GNU General Public License version 3\
+You can download full text of the license on http://www.gnu.org/licenses/gpl-3.0.txt\n'):format(_MYVERSION))
+
+	show_usage()
+
+print[[
 
 Options:
 	--help                    - Show this help
@@ -111,8 +115,6 @@ Options:
 	--randomnick              - Add random number in nick end
 	
 	]]
-	print (help)
-	usage()
 end
 
 function cliarg_handler ()
@@ -120,7 +122,7 @@ function cliarg_handler ()
 		local available_args = {
 			["addr"] = true, ["port"] = true, ["nick"] = true, ["password"] = true, ["sharesize"] = true, ["help"]= true,
 			['perfdata']=true,['usersmaxwarn']=true, ['usersmaxcritical']=true,["expecthubname"]=true,
-			['randomnick'] = true,
+			['randomnick'] = true, ['version'] = true,
 		}
 		for _, val in ipairs(arg) do
 			if val:find("=", 1, true) then
@@ -147,6 +149,10 @@ function cliarg_handler ()
 	if tArgs["help"] then
 		show_help() -- Show help
 		os.exit(NAG_STATES["OK"])
+	end
+	if tArgs['version'] then
+		print(arg[0]:gsub('./','')..' version: '.._MYVERSION)
+		os.exit(NAG_STATES['OK'])
 	end
 	if not tArgs['addr'] or type(tArgs['addr']) ~= 'string' then
 		print('Argument \'addr\' is nil or not string')

@@ -131,7 +131,7 @@ function cliarg_handler ()
 					tArgs[name:lower()] = value
 				else
 					print("Unknown commandline argument used: "..val)
-					usage()
+					show_usage()
 					os.exit(NAG_STATES["UNKNOWN"])
 				end
 			else
@@ -140,7 +140,7 @@ function cliarg_handler ()
 					tArgs[name:lower()] = true
 				else
 					print("Unknown commandline argument used: "..val)
-					usage()
+					show_usage()
 					os.exit(NAG_STATES["UNKNOWN"])
 				end
 			end

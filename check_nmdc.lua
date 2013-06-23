@@ -84,7 +84,7 @@ end
 
 
 function show_usage()
-	local _usage=[[usage: ]]..arg[0]:gsub('./','')..[[ --addr=dc.mycompany.ltd [ --port=4111 ] [ --nick='MyNagios' ] [ --password='mysuperpassowrd' ] [ --sharesize=1G ] [ --perfdata ] [ --usersmaxwarn=95 ] [ --usersmaxcritical=100 ] [ --expecthubname='My Company DC's Hub' ] [ --randomnick ] ]]
+	local _usage=[[usage: ]]..arg[0]:gsub('./','')..[[ --addr=dc.mycompany.ltd [ --port=4111 ] [ --nick='MyNagios' ] [ --password='mysuperpassowrd' ] [ --sharesize=1G ] [ --perfdata ] [ --usersmaxwarn=95 ] [ --usersmaxcritical=100 ] [ --expecthubname='My Company DC's Hub' ] [ --randomnick ] [ --version ] ]]
 	print(_usage)
 end
 
@@ -102,6 +102,7 @@ You can download full text of the license on http://www.gnu.org/licenses/gpl-3.0
 print[[
 
 Options:
+	--version                 - Show version
 	--help                    - Show this help
 	--addr=VALUE              - Host name or IP Address hub
 	--port=VALUE              - TCP Port. (Optional. Default: 411)

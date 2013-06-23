@@ -156,6 +156,7 @@ function cliarg_handler ()
 	end
 	if not tArgs['addr'] or type(tArgs['addr']) ~= 'string' then
 		print('Argument \'addr\' is nil or not string')
+		show_usage()
 		os.exit(NAG_STATES['UNKNOWN'])
 	end
 	if not tArgs["port"] or type(tArgs["port"]) ~= 'string' then
@@ -179,7 +180,7 @@ function cliarg_handler ()
 		os.exit(NAG_STATES['UNKNOWN'])
 	end
 	if tArgs['expecthubname'] and type(tArgs['expecthubname']) ~= 'string' then
-		print('Argument \'expecthubname\' is nil or not string: ')
+		print('Argument \'expecthubname\' is nil or not string')
 		os.exit(NAG_STATES['UNKNOWN'])
 	end
 end

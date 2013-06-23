@@ -75,7 +75,7 @@ function convert_normal_size_to_bytes (value)
 end
 
 function convert_bytes_to_normal_size (share)
-    local i,unit = 1, {"B","KB","MB","GB","TB","PB","EB"}
+    local i,unit = 1, {"KB","MB","GB","TB","PB","EB"}
     while share > 1024 do 
     	share = share / 1024 i = i + 1 
     end
